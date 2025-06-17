@@ -53,13 +53,13 @@ cd 02_A_Mini_Microservices_App/client
 npm install
 ```
 
-3. Install service dependencies (once implemented):
+3. Install service dependencies:
 ```bash
-# Posts service
+# Posts service (implemented)
 cd ../posts
 npm install
 
-# Comments service
+# Comments service (pending implementation)
 cd ../comments
 npm install
 ```
@@ -72,9 +72,9 @@ Start each service in separate terminals:
 cd 02_A_Mini_Microservices_App/client
 npm run dev
 
-# Terminal 2 - Posts Service (when implemented)
+# Terminal 2 - Posts Service (✅ Functional)
 cd 02_A_Mini_Microservices_App/posts
-npm start
+npm run dev
 
 # Terminal 3 - Comments Service (when implemented)
 cd 02_A_Mini_Microservices_App/comments
@@ -88,7 +88,11 @@ MICROSERVICES_NODE_JS/
 ├── memory-bank/                 # Project documentation and memory
 ├── 02_A_Mini_Microservices_App/
 │   ├── client/                  # React TypeScript frontend (✅ Complete)
-│   ├── posts/                   # Posts microservice (🔄 In Progress)
+│   ├── posts/                   # Posts microservice (✅ Core Complete)
+│   │   ├── src/index.ts         # TypeScript Express server
+│   │   ├── dist/                # Compiled JavaScript
+│   │   ├── package.json         # Dependencies and scripts
+│   │   └── posts.postman_collection.json  # API testing
 │   ├── comments/                # Comments microservice (🔄 In Progress)
 │   └── event-bus/               # Event bus service (⏳ Pending)
 ├── diagrams/                    # Architecture diagrams
@@ -130,10 +134,10 @@ This project demonstrates:
 - ✅ **React Client**: Fully scaffolded and ready for development
 - ✅ **Documentation System**: Comprehensive memory bank with all core files
 - ✅ **Main README**: Complete project overview and setup instructions
-- 🔄 **Posts Service**: Package configured with dependencies, implementation pending
+- ✅ **Posts Service**: TypeScript Express.js server with GET/POST endpoints and Postman testing
 - 🔄 **Comments Service**: Package configured with dependencies, implementation pending
 - ⏳ **Event Bus**: Not yet created
-- ⏳ **Inter-Service Communication**: Pending service implementations
+- ⏳ **Inter-Service Communication**: Pending event bus implementation
 
 ## 📄 License
 
