@@ -16,9 +16,9 @@ const createPostHandler:RequestHandler = (req, res) => {
     const postId = randomBytes(4).toString('hex');
     const post = req.body;
     posts[postId] = { id: postId, title: post.title };
-    res.status(201).json({ message: "Post created", post });
-}   
-    
+    res.status(201).json({ message: "Post created", post: posts[postId] });
+}
+
 app.post("/posts", createPostHandler);
 
 app.listen(4000, () => {
