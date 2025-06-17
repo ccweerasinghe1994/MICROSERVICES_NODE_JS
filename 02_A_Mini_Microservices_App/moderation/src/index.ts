@@ -1,14 +1,32 @@
+import axios from 'axios';
 import cors from 'cors';
 import express from 'express';
-const posts: Record<string, { id: string; title: string }> = {};
+import type { CommentCreatedData, CommentCreatedEvent } from './types';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/events', (req, res) => {
-  const event = req.body;
-  console.log('Received event:', event.type);
+app.post('/events', async (req, res) => {
+  const event = req.body as CommentCreatedEvent;
+
+  if (event.type === 'CommentCreated') {
+    const status = event.data.content.includes('orange')
+      ? 'rejected'
+      : 'approved';
+    const moderatedComment: CommentCreatedData = {
+      ...event.data,
+      status,
+    };
+
+    const moderatedCommentEvent = {
+      type: 'CommentModerated',
+      data: moderatedComment,
+    };
+
+    await axios.post('http://localhost:4005/events', moderatedCommentEvent);
+  }
+
   res.send({});
 });
 
