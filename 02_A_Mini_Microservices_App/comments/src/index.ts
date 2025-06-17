@@ -1,3 +1,4 @@
+import cors from 'cors';
 import { randomBytes } from 'crypto';
 import express, { Request, Response } from 'express';
 import { CommentData, CreateCommentParams, CreateCommentRequest, GetCommentsParams } from './index.d.js';
@@ -5,6 +6,7 @@ import { CommentData, CreateCommentParams, CreateCommentRequest, GetCommentsPara
 const commentsByPostId: Record<string, CommentData[]> = {};
 
 const app = express();
+app.use(cors());
 app.use(express.json()); 
 
 const getCommentsHandler = (req: Request<GetCommentsParams>, res: Response<CommentData[]>) => {

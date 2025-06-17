@@ -1,9 +1,10 @@
+import cors from 'cors';
 import express, { RequestHandler } from 'express';
 import { randomBytes } from 'node:crypto';
-
 const posts:Record<string, { id: string, title: string }> = {}
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 const requestHandler:RequestHandler = (req, res) => {
     res.json(Object.values(posts));
