@@ -1,7 +1,7 @@
-import type { TPost } from '../App';
+import type { ResponseData } from '../App';
 import PostItem from './PostItem';
 
-export default function PostList({ posts }: { posts: TPost[] }) {
+export default function PostList({ posts }: { posts: ResponseData[] }) {
   console.log('🚀 ~ PostList ~ posts:', posts);
   if (!posts || posts.length === 0) {
     return (

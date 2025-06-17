@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { APIS, getMethod } from '../api';
+import { useState } from 'react';
+import type { ResponseData } from '../App';
 import CommentCreate from './CommentCreate';
 
 export interface CommentData {
@@ -7,31 +7,19 @@ export interface CommentData {
   content: string;
 }
 
-export default function CommentList({ postId }: { postId: string }) {
+export default function CommentList({ post }: { post: ResponseData }) {
   const [comments, setComments] = useState<CommentData[]>([]);
-  useEffect(() => {
-    async function fetchComments() {
-      // Fetch comments for the post with the given postId
-      const { data, error, isError } = await getMethod<CommentData[]>(
-        `/posts/${postId}/comments`,
-        APIS.COMMENT
-      );
-      if (isError) {
-        console.error('Error fetching comments:', error);
-      } else {
-        console.log('Fetched comments:', data);
-        setComments(data!);
-      }
-    }
 
-    fetchComments();
-  }, [postId]);
+  const commentsFromPost = post.comments || [];
+
   return (
     <div>
-      {comments.length > 0 && <h4>{comments.length} comments</h4>}
-      <CommentCreate setComments={setComments} postId={postId} />
+      {commentsFromPost.length > 0 && (
+        <h4>{commentsFromPost.length} comments</h4>
+      )}
+      <CommentCreate setComments={setComments} postId={post.id} />
       <ul className="w-full h-48 overflow-y-auto">
-        {comments.map((comment) => (
+        {commentsFromPost.map((comment) => (
           <li
             className="border-b border-gray-200 py-2 pl-4 text-gray-700 italic hover:bg-gray-100 transition-colors "
             key={comment.id}

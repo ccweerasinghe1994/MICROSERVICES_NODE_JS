@@ -3,23 +3,32 @@ import { APIS, getMethod } from './api';
 import CreatePost from './components/CreatePost';
 import PostList from './components/PostList';
 
-export type TPost = { id: string; title: string };
+export type ResponseData = {
+  id: string;
+  title: string;
+  comments?: { id: string; content: string }[];
+};
+
+export type TPost = Record<string, ResponseData>;
 export type TPostResponse = { post: TPost; message: string };
 export default function App() {
-  const [posts, setPosts] = useState<TPost[]>([]);
+  const [posts, setPosts] = useState<ResponseData[]>([]);
 
   useEffect(() => {
     async function fetchPosts() {
-      const { data, error, isError } = await getMethod<TPost[]>(
+      const { data, error, isError } = await getMethod<TPost>(
         '/posts',
-        APIS.POST
+        APIS.QUERY
       );
+      console.log('Fetched posts:', data, error, isError);
       if (isError) {
         console.error('Error fetching posts:', error);
         setPosts([]);
       } else {
-        console.log('Fetched posts:', data);
-        setPosts(data!);
+        if (data) {
+          const items = Object.values(data);
+          setPosts(items);
+        }
       }
     }
     fetchPosts();

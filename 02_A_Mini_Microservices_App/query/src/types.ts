@@ -1,36 +1,33 @@
-
-enum EVENT_TYPE  {
-    POST_CREATED = "PostCreated",
-    COMMENT_CREATED = "CommentCreated"
+enum EVENT_TYPE {
+  POST_CREATED = 'PostCreated',
+  COMMENT_CREATED = 'CommentCreated',
 }
 
 type TPost = {
-    id:string
-    title:string
-}
+  id: string;
+  title: string;
+};
 
 type TComment = {
-    id:string
-    content:string
-}
+  id: string;
+  content: string;
+  status: 'pending';
+};
 
 type TPostObject = TPost & {
-    comments?:TComment[]
-}
+  comments?: TComment[];
+};
 
-type TPosts = Record<string,TPostObject>
+type TPosts = Record<string, TPostObject>;
 
 type TPostCreated = {
-    type:EVENT_TYPE.POST_CREATED,
-    data:TPost
-}
-
+  type: EVENT_TYPE.POST_CREATED;
+  data: TPost;
+};
 
 type TCommentCreated = {
-    type:EVENT_TYPE.COMMENT_CREATED,
-    data:TComment & {postId:string}
-}
+  type: EVENT_TYPE.COMMENT_CREATED;
+  data: TComment & { postId: string };
+};
 
-
-export { EVENT_TYPE, TCommentCreated, TPostCreated, TPosts }
-
+export { EVENT_TYPE, TCommentCreated, TPostCreated, TPosts };

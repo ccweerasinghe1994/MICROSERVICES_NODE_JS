@@ -2,102 +2,111 @@
 
 ## What Works
 ✅ **React Client Application**
-- Complete transformation from Vite template to functional microservices client
+- Complete transformation with event-driven data consumption
+- Refactored to use query service for aggregated posts with embedded comments
+- QUERY API integration with dynamic base URL selection  
 - Tailwind CSS integration for modern, responsive styling
-- Comprehensive API layer with proper error handling and TypeScript types
-- Full component architecture: CreatePost, PostList, PostItem, CommentList, CommentCreate
-- Real-time state management for posts and comments
-- CORS-enabled communication with backend services
+- Enhanced component architecture with optimized data flow
+- Real-time state management using aggregated data from query service
 
-✅ **Project Structure**
-- Clear microservices directory structure established
-- Separate package.json files for each service
-- Memory bank documentation system initialized
-- Git repository with proper change tracking
-
-✅ **Development Environment**
-- Windows PowerShell environment configured
-- Node.js and npm available
-- Vite development server working
-- TypeScript compilation configured
-
-✅ **Comprehensive Documentation**
-- Complete memory bank system with all core files
-- Updated main README with project overview and setup instructions
-- Project brief, product context, system patterns documented
-- Technical context and development guidelines established
-
-✅ **Posts Service Implementation** 
+✅ **Posts Service Implementation**
 - Express.js TypeScript server running on port 4000 with CORS enabled
-- GET /posts endpoint for retrieving all posts
-- POST /posts endpoint for creating new posts
+- GET /posts and POST /posts endpoints fully functional
+- Event publishing capability integrated
 - In-memory data storage with proper typing
-- TypeScript compilation to dist/ directory
-- Development tooling with tsx and nodemon hot reload
-- Postman collection for API testing
+- Prettier code formatting configuration
 
-✅ **Comments Service Implementation**
+✅ **Comments Service Implementation**  
 - Express.js TypeScript server running on port 4001 with CORS enabled
-- GET /posts/:id/comments endpoint for retrieving comments by post ID
-- POST /posts/:id/comments endpoint for creating new comments
-- Proper TypeScript interfaces moved to separate declaration file
-- In-memory data storage organized by post ID
-- CORS middleware for frontend integration
+- GET /posts/:id/comments and POST /posts/:id/comments endpoints
+- Event emission to event bus with CommentCreated events
+- Comment status tracking (pending status on creation)
+- Enhanced TypeScript interfaces with status field
+- Proper event payload structure with postId, content, and status
 
-✅ **Service Configuration**
-- Both Posts and Comments services fully implemented with modern TypeScript setup
-- All services configured with proper module systems (CommonJS)
-- CORS enabled for frontend integration
-- Development dependencies (nodemon, TypeScript types) properly set up
+✅ **Query Service Implementation**
+- New Express.js TypeScript server running on port 4002
+- Event handling for PostCreated and CommentCreated events
+- Data aggregation creating posts with embedded comments
+- GET /posts endpoint serving aggregated data to frontend
+- Strong TypeScript typing with proper event and data interfaces
+- CORS enabled for frontend consumption
+
+✅ **Moderation Service Scaffolding**
+- Basic Express.js TypeScript server running on port 4003
+- Event endpoint configured to receive events
+- Package.json, tsconfig.json, and dependencies configured
+- Prettier formatting configuration
+- Ready for moderation logic implementation
+
+✅ **Event-Driven Architecture Foundation**
+- Comments service emitting CommentCreated events to event bus
+- Query service consuming events to build aggregated read models
+- Event schemas defined with proper TypeScript interfaces
+- Event bus receiving and distributing events between services
+
+✅ **Code Quality and Consistency**
+- Prettier configuration added to all services (.prettierrc files)
+- Consistent code formatting across client and all backend services
+- TypeScript strict typing enforced throughout the codebase
+- Proper error handling and type safety maintained
 
 ## What's Partially Complete
-🔄 **Frontend-Backend Integration** 
-- ✅ Posts and Comments services fully functional with CORS
-- ✅ React client completely transformed with full UI/UX
-- ✅ API layer with proper error handling and TypeScript
-- ✅ Real-time state management for posts and comments
-- ⏳ Event-driven communication between services
-- ⏳ Comment moderation functionality
-- ⏳ Advanced error boundaries and user feedback
+🔄 **Event-Driven Communication**
+- ✅ Comments service emitting events to event bus
+- ✅ Query service consuming events for data aggregation
+- ✅ Frontend consuming aggregated data from query service
+- ⏳ Moderation service event handling logic
+- ⏳ Comment status update events from moderation to query service
+- ⏳ Posts service event emission for PostCreated events
 
-🔄 **Project Documentation**
-- ✅ Memory bank system complete and up to date
-- ✅ Main README with comprehensive project information
-- ⏳ Service-specific README files for Posts and Comments APIs
-- ⏳ API documentation with endpoint examples
+🔄 **Moderation Service**
+- ✅ Basic Express.js server scaffolded and running on port 4003
+- ✅ Event endpoint configured to receive events
+- ✅ TypeScript configuration and dependencies set up
+- ⏳ Actual comment moderation logic implementation
+- ⏳ Comment status update event emission
+- ⏳ Integration with query service for status updates
 
 ## What's Left to Build
 
 ### High Priority
-1. **Event Bus Service Implementation**
-   - Create central event coordination service
-   - Implement event routing and distribution
-   - Add service registration/discovery
-   - Enable real-time communication between services
+1. **Complete Moderation Service Logic**
+   - Implement actual comment content moderation (currently only logs events)
+   - Add moderation rules (keyword filtering, etc.)
+   - Emit CommentModerated events with approved/rejected status
+   - Send status updates back to query service
 
-2. **Enhanced Service Features**
-   - Add comment moderation logic to Comments service
-   - Implement PUT/DELETE endpoints for complete CRUD operations
-   - Add event publishing logic for inter-service communication
-   - Create health check endpoints for all services
-   - Event handling for posts
+2. **Enhanced Event-Driven Features**
+   - Add PostCreated event emission from posts service  
+   - Implement complete event propagation flow
+   - Add event handling resilience and error recovery
+   - Create event replay capability for query service state reconstruction
 
-3. **Event Bus Service**
-   - Central event coordination service
-   - Event routing and distribution
-   - Service registration/discovery
-   - Event logging
+3. **Complete CRUD Operations**
+   - Add PUT/DELETE endpoints for posts and comments
+   - Implement comment status updates via moderation events
+   - Add event handling for update and delete operations
+   - Ensure query service handles all event types
 
-4. **Service-Specific Documentation**
-   - Posts service README with API documentation
-   - Comments service README with API documentation
-   - Event bus service README with event schemas
-   - Architecture and usage examples
+4. **Service Documentation**
+   - Query service README with event schemas and API documentation
+   - Moderation service README with moderation rules and event flow
+   - Updated Posts and Comments service READMEs with event publishing details
+   - Event flow diagrams and architecture documentation
 
 ### Medium Priority
-5. **Frontend Integration**
-   - Update React app to consume microservices
-   - Create components for posts and comments
+5. **Error Handling and Resilience**
+   - Event publishing failure handling
+   - Service timeout and retry mechanisms
+   - Dead letter queue for failed events
+   - Health check endpoints for all services
+
+6. **Advanced Event Features**
+   - Event versioning and schema evolution
+   - Event store implementation for better persistence
+   - Event sourcing for complete state reconstruction
+   - Event bus enhancement with better routing
    - Implement state management
    - Add real-time updates
 
@@ -108,47 +117,55 @@
    - Add retry mechanisms
 
 ### Low Priority
-7. **Advanced Features**
-   - Comment moderation rules
-   - Post categorization
-   - User interface improvements
-   - Error boundary implementation
+7. **Advanced Frontend Features**
+   - Real-time updates via WebSocket or Server-Sent Events
+   - Optimistic UI updates with rollback capability
+   - Advanced error boundaries with retry functionality
+   - Loading states and better UX for async operations
+
+8. **Production Readiness**
+   - Service containerization with Docker
+   - Environment configuration management
+   - Logging and monitoring setup
+   - CI/CD pipeline configuration
 
 ## Current Status
-- **Phase**: Major Implementation Complete - Core Microservices Functional
-- **Completion**: ~85% (Structure, documentation, Posts/Comments services, and client application complete)
-- **Next Milestone**: Implement Event Bus service and complete inter-service communication
+- **Phase**: Advanced Implementation - Event-Driven Architecture in Progress
+- **Completion**: ~75% (All core services implemented, event-driven foundation established, query service operational)
+- **Next Milestone**: Complete moderation service logic and full event propagation flow
 - **Blockers**: None currently identified
-- **Recent Achievement**: Complete transformation - functional microservices application with frontend integration
+- **Recent Achievement**: Successfully implemented CQRS pattern with query service and event-driven comment creation
 
 ## Known Issues
-- Posts and Comments service README files are empty and need comprehensive API documentation
-- Event Bus service not yet implemented
-- No event-driven inter-service communication established yet
-- Comment moderation logic not yet implemented
-- Missing PUT/DELETE endpoints for complete CRUD operations
+- Moderation service only logs events, needs actual moderation logic
+- Posts service not yet emitting PostCreated events
+- Query service lacks event replay capability for state reconstruction
+- Missing PUT/DELETE operations for complete CRUD functionality
+- Service-specific documentation needs updates to reflect event-driven changes
 
 ## Evolution of Decisions
-- **Module System**: Decided on CommonJS for services, ES modules for client
-- **Documentation Strategy**: Implemented memory bank system for comprehensive tracking
-- **Technology Choices**: Stuck with modern stack (React 19, TypeScript, Vite)
-- **Learning Focus**: Prioritizing educational value over production readiness
+- **Event-Driven Architecture**: Adopted CQRS pattern with separate query service for read operations
+- **Data Flow Strategy**: Moved from direct service calls to event-driven aggregated data consumption
+- **Frontend Integration**: Refactored to consume aggregated data from query service instead of multiple service calls
+- **Module System**: Maintained CommonJS for services, ES modules for client
+- **Code Quality**: Implemented Prettier formatting across all services for consistency
 
 ## Success Metrics Progress
-- ✅ Project structure established
-- ✅ React frontend completely transformed with microservices integration
-- ✅ Comprehensive documentation system created
-- ✅ Main README with complete project overview
-- ✅ Posts service fully implemented with TypeScript, Express.js, and CORS
-- ✅ Comments service fully implemented with TypeScript, Express.js, and CORS
-- ✅ Frontend-backend integration with real-time state management
-- ✅ Tailwind CSS styling and modern UI/UX
-- 🔄 Inter-service communication (direct HTTP, event bus pending)
-- ⏳ Event-driven architecture pending
+- ✅ Project structure established with all core services
+- ✅ React frontend refactored for event-driven data consumption
+- ✅ CQRS pattern implemented with query service
+- ✅ Event-driven communication foundation established
+- ✅ Comments service enhanced with event emission
+- ✅ Query service aggregating data from events
+- ✅ Moderation service scaffolded and ready for implementation
+- ✅ Code consistency with Prettier formatting
+- 🔄 Full event propagation flow (comments working, posts pending)
+- ⏳ Complete moderation workflow implementation
 
 ## Next Session Goals
-1. Implement Event Bus service for inter-service communication
-2. Add event publishing logic to Posts and Comments services
-3. Implement comment moderation functionality
-4. Create comprehensive API documentation for Posts and Comments services
-5. Add PUT/DELETE endpoints for complete CRUD operations
+1. Complete moderation service logic with actual comment filtering
+2. Add PostCreated event emission from posts service
+3. Implement comment status update events from moderation service
+4. Add PUT/DELETE endpoints for complete CRUD operations
+5. Create comprehensive API and event documentation for all services
+6. Add event replay capability to query service for state reconstruction

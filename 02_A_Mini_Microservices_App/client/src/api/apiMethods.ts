@@ -10,6 +10,7 @@ import type {
 export const APIS = {
   POST: 'POST',
   COMMENT: 'COMMENT',
+  QUERY: 'QUERY',
 } as const;
 
 export type TAPIS = (typeof APIS)[keyof typeof APIS];
@@ -20,6 +21,8 @@ const getBaseUrl = (api: TAPIS): string => {
       return 'http://localhost:4000';
     case APIS.COMMENT:
       return 'http://localhost:4001';
+    case APIS.QUERY:
+      return 'http://localhost:4002';
     default:
       throw new Error('Unknown API');
   }

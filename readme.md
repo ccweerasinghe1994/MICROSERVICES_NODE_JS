@@ -15,8 +15,10 @@ This project implements a mini microservices application that demonstrates:
 
 The application consists of:
 - **Client** (Port 3000): React + TypeScript frontend application
-- **Posts Service** (Port 4000): Microservice for managing blog posts
+- **Posts Service** (Port 4000): Microservice for managing blog posts  
 - **Comments Service** (Port 4001): Microservice for managing comments
+- **Query Service** (Port 4002): Data aggregation service using CQRS pattern
+- **Moderation Service** (Port 4003): Comment moderation service
 - **Event Bus** (Port 4005): Central event coordination service
 
 ## 📚 Documentation
@@ -55,12 +57,24 @@ npm install
 
 3. Install service dependencies:
 ```bash
-# Posts service (implemented)
+# Posts service 
 cd ../posts
 npm install
 
-# Comments service (✅ Functional)
-cd ../comments
+# Comments service (✅ Event-enabled)
+cd ../comments  
+npm install
+
+# Query service (✅ Functional)
+cd ../query
+npm install
+
+# Moderation service (🔄 Scaffolded)
+cd ../moderation
+npm install
+
+# Event Bus service (✅ Functional)
+cd ../event-bus
 npm install
 ```
 
@@ -72,13 +86,24 @@ Start each service in separate terminals:
 cd 02_A_Mini_Microservices_App/client
 npm run dev
 
-# Terminal 2 - Posts Service (✅ Functional)
+# Terminal 2 - Posts Service 
 cd 02_A_Mini_Microservices_App/posts
 npm run dev
 
-# Terminal 3 - Comments Service (✅ Functional)
+# Terminal 3 - Comments Service (✅ Event-enabled)
 cd 02_A_Mini_Microservices_App/comments
 npm run dev
+
+# Terminal 4 - Query Service (✅ CQRS aggregation)
+cd 02_A_Mini_Microservices_App/query
+npm run dev
+
+# Terminal 5 - Moderation Service (🔄 Basic scaffolding)
+cd 02_A_Mini_Microservices_App/moderation
+npm run dev
+
+# Terminal 6 - Event Bus Service
+cd 02_A_Mini_Microservices_App/event-bus
 npm start
 ```
 
@@ -88,21 +113,34 @@ npm start
 MICROSERVICES_NODE_JS/
 ├── memory-bank/                 # Project documentation and memory
 ├── 02_A_Mini_Microservices_App/
-│   ├── client/                  # React TypeScript frontend (✅ Complete)
-│   │   ├── src/components/      # React components (CreatePost, PostList, CommentList, etc.)
-│   │   ├── src/api/             # API layer with TypeScript types
+│   ├── client/                  # React TypeScript frontend (✅ Event-driven)
+│   │   ├── src/components/      # React components with aggregated data consumption
+│   │   ├── src/api/             # API layer with QUERY service integration
 │   │   ├── package.json         # Dependencies including Tailwind CSS
 │   │   └── vite.config.ts       # Vite configuration
-│   ├── posts/                   # Posts microservice (✅ Complete)
+│   ├── posts/                   # Posts microservice (✅ Functional)
 │   │   ├── src/index.ts         # TypeScript Express server with CORS
 │   │   ├── dist/                # Compiled JavaScript
 │   │   ├── package.json         # Dependencies and scripts
 │   │   └── posts.postman_collection.json  # API testing
-│   ├── comments/                # Comments microservice (✅ Complete)
-│   │   ├── src/index.ts         # TypeScript Express server with CORS
-│   │   ├── src/index.d.ts       # TypeScript type definitions
-│   │   └── package.json         # Dependencies and scripts
-│   └── event-bus/               # Event bus service (⏳ Pending)
+│   ├── comments/                # Comments microservice (✅ Event-enabled)
+│   │   ├── src/index.ts         # TypeScript Express server with event emission
+│   │   ├── src/index.d.ts       # TypeScript interfaces
+│   │   ├── package.json         # Dependencies with axios for events
+│   │   └── .prettierrc          # Code formatting
+│   ├── query/                   # Query service (✅ CQRS implementation)
+│   │   ├── src/index.ts         # Event-driven data aggregation
+│   │   ├── src/types.ts         # TypeScript event and data types
+│   │   ├── package.json         # Dependencies for event handling
+│   │   └── .prettierrc          # Code formatting
+│   ├── moderation/              # Moderation service (🔄 Scaffolded)
+│   │   ├── src/index.ts         # Basic Express server for event handling
+│   │   ├── package.json         # Dependencies configured
+│   │   ├── tsconfig.json        # TypeScript configuration
+│   │   └── .prettierrc          # Code formatting
+│   └── event-bus/              # Event coordination service (✅ Functional)
+│       ├── src/index.js         # Central event routing and distribution
+│       └── package.json         # Dependencies for event handling
 ├── diagrams/                    # Architecture diagrams
 └── readme.md                    # This file
 ```
@@ -117,35 +155,38 @@ MICROSERVICES_NODE_JS/
 
 ### Backend
 - Node.js with Express.js
+- TypeScript for type safety
 - CommonJS modules for services
 - CORS for cross-origin requests
-- Axios for HTTP communication
+- Axios for HTTP communication and event publishing
 
 ### Development
 - Windows PowerShell environment
-- npm package management
-- Hot reload development
+- npm/pnpm package management
+- Hot reload development with tsx/nodemon
+- Prettier code formatting consistency
 - Memory bank documentation system
 
 ## 📖 Learning Objectives
 
 This project demonstrates:
-- **Service Decomposition**: Breaking monoliths into microservices
-- **Event-Driven Communication**: Async service communication
-- **API Design**: RESTful service interfaces
-- **Frontend Integration**: React consuming multiple services
-- **Modern Development**: TypeScript, Vite, and current best practices
+- **Service Decomposition**: Breaking monoliths into focused microservices
+- **Event-Driven Architecture**: CQRS pattern with query service for data aggregation
+- **Inter-Service Communication**: Event publishing and consumption patterns
+- **API Design**: RESTful service interfaces with event-driven enhancements
+- **Frontend Integration**: React consuming aggregated data from query service
+- **Modern Development**: TypeScript, Vite, event sourcing, and current best practices
 
 ## 🚧 Current Status
 
-- ✅ **Project Structure**: Complete with memory bank documentation
-- ✅ **React Client**: Fully functional microservices application with Tailwind CSS and real-time updates
-- ✅ **Documentation System**: Comprehensive memory bank with all core files
-- ✅ **Main README**: Complete project overview and setup instructions
-- ✅ **Posts Service**: TypeScript Express.js server with CORS, GET/POST endpoints, and Postman testing
-- ✅ **Comments Service**: TypeScript Express.js server with CORS and comment management functionality
-- ⏳ **Event Bus**: Not yet created
-- 🔄 **Inter-Service Communication**: Direct HTTP integration complete, event bus pending
+- ✅ **Project Structure**: Complete with comprehensive memory bank documentation
+- ✅ **React Client**: Event-driven data consumption with aggregated posts and embedded comments
+- ✅ **Posts Service**: TypeScript Express.js server with CORS and API endpoints
+- ✅ **Comments Service**: Enhanced with event emission to event bus and status tracking
+- ✅ **Query Service**: CQRS implementation aggregating data from events
+- ✅ **Event Bus**: Functional service handling event distribution
+- 🔄 **Moderation Service**: Scaffolded but needs moderation logic implementation  
+- 🔄 **Event-Driven Flow**: Comments events working, posts events and moderation logic pending
 
 ## 📄 License
 
