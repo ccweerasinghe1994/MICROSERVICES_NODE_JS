@@ -1,6 +1,7 @@
 enum EVENT_TYPE {
   POST_CREATED = 'PostCreated',
   COMMENT_CREATED = 'CommentCreated',
+  COMMENT_UPDATED = 'CommentUpdated',
 }
 
 type TPost = {
@@ -30,4 +31,15 @@ type TCommentCreated = {
   data: TComment & { postId: string };
 };
 
-export { EVENT_TYPE, TCommentCreated, TPostCreated, TPosts };
+type CommentUpdatedEvent = {
+  type: 'CommentUpdated';
+  data: TComment & { postId: string };
+};
+
+export {
+  CommentUpdatedEvent,
+  EVENT_TYPE,
+  TCommentCreated,
+  TPostCreated,
+  TPosts,
+};

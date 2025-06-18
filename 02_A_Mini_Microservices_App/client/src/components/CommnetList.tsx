@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import type { ResponseData } from '../App';
 import CommentCreate from './CommentCreate';
+import CommentItem from './CommentItem';
 
 export interface CommentData {
   id: string;
   content: string;
+  status: 'pending' | 'approved' | 'rejected';
 }
 
 export default function CommentList({ post }: { post: ResponseData }) {
@@ -20,13 +22,7 @@ export default function CommentList({ post }: { post: ResponseData }) {
       <CommentCreate setComments={setComments} postId={post.id} />
       <ul className="w-full h-48 overflow-y-auto">
         {commentsFromPost.map((comment) => (
-          <li
-            className="border-b border-gray-200 py-2 pl-4 text-gray-700 italic hover:bg-gray-100 transition-colors "
-            key={comment.id}
-          >
-            <span className="inline-block w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-            {comment.content}
-          </li>
+          <CommentItem comment={comment} key={comment.id} />
         ))}
       </ul>
     </div>

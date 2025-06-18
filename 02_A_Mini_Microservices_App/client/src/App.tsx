@@ -6,7 +6,11 @@ import PostList from './components/PostList';
 export type ResponseData = {
   id: string;
   title: string;
-  comments?: { id: string; content: string }[];
+  comments?: {
+    id: string;
+    content: string;
+    status: 'pending' | 'approved' | 'rejected';
+  }[];
 };
 
 export type TPost = Record<string, ResponseData>;

@@ -3,8 +3,8 @@ import cors from 'cors';
 import { randomBytes } from 'crypto';
 import express, { Request, Response } from 'express';
 import {
-  CommentCreatedEvent,
   CommentData,
+  CommentModeratedEvent,
   CommentUpdatedEvent,
   CreateCommentParams,
   CreateCommentRequest,
@@ -60,9 +60,9 @@ const createCommentHandler = async (
 app.post('/posts/:id/comments', createCommentHandler);
 
 app.post('/events', async (req, res) => {
-  const event = req.body as CommentCreatedEvent;
+  const event = req.body as CommentModeratedEvent;
   console.log('Received event:', event.type);
-  if (event.type === 'CommentCreated') {
+  if (event.type === 'CommentModerated') {
     const {
       data: { id, postId, status, content },
     } = event;
@@ -73,7 +73,7 @@ app.post('/events', async (req, res) => {
       commentToUpdate.status = status;
 
       const commentUpdatedEvent: CommentUpdatedEvent = {
-        type: 'CommentCreated',
+        type: 'CommentUpdated',
         data: {
           content,
           id,

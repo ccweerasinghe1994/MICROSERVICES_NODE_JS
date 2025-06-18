@@ -23,23 +23,22 @@ type CommentCreatedData = {
   status: TCommentStatus;
 };
 
-type CommentCreatedEvent = {
-  type: 'CommentCreated';
+type CommentModeratedEvent = {
+  type: 'CommentModerated';
   data: CommentCreatedData;
 };
 
-
 type CommentUpdatedEvent = {
-  type: 'CommentCreated';
+  type: 'CommentUpdated';
   data: CommentCreatedData;
 };
 
 export {
   CommentCreatedData,
-  CommentCreatedEvent,
   CommentData,
+  CommentModeratedEvent,
+  CommentUpdatedEvent,
   CreateCommentParams,
   CreateCommentRequest,
   GetCommentsParams,
-  CommentUpdatedEvent,
 };
