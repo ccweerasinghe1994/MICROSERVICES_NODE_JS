@@ -20,26 +20,22 @@
 5. **Service Documentation**: Update all service READMEs to reflect current event-driven architecture
 
 ## Key Decisions Made
-- **🏆 Complete Event Sourcing**: Event bus now stores all events with replay capability for state reconstruction
-- **Bi-Directional Event Flow**: CommentCreated → CommentModerated → CommentUpdated complete lifecycle
-- **Real-Time Synchronization**: Comments service updates local state from CommentModerated events
-- **Query Service Event Replay**: Automatic state reconstruction on startup from event history
+- **🏆 Complete Event Sourcing**: Event bus stores all events with replay capability for state reconstruction
+- **Complete Event-Driven Flow**: PostCreated → CommentCreated → CommentModerated → CommentUpdated lifecycle
+- **Real-Time Synchronization**: All services maintain synchronized state through event propagation
+- **Query Service Event Replay**: Automatic state reconstruction on startup from complete event history
 - **Enterprise Error Handling**: Graceful error handling for failed service communications
-- **Event-Driven Consistency**: All services maintain synchronized state through event propagation
+- **Keyword-Based Moderation**: Simple yet effective content filtering (expandable to complex rules)
+- **CQRS Pattern Implementation**: Clear separation between command and query operations
 
 ## Current File States
-- **Posts Service**: ✅ Fully functional (pending PostCreated event integration)
-- **Comments Service**: ✅ **ADVANCED** - Handles CommentModerated events and emits CommentUpdated events
-- **Query Service**: ✅ **ENHANCED** - Handles CommentUpdated events with event replay capability
+- **Posts Service**: ✅ **COMPLETE** - Full CRUD operations with PostCreated event emission
+- **Comments Service**: ✅ **COMPLETE** - Handles CommentModerated events and emits CommentUpdated events
+- **Query Service**: ✅ **COMPLETE** - Handles all event types with comprehensive event replay capability
 - **Moderation Service**: ✅ **COMPLETE** - Full comment moderation with CommentModerated event emission
-- **Event Bus**: ✅ **ENTERPRISE-LEVEL** - Event storage, replay, and error handling
-- **Client Application**: ✅ Consuming aggregated data (ready for status display updates)
+- **Event Bus**: ✅ **ENTERPRISE-LEVEL** - Event storage, replay, and comprehensive error handling
+- **Client Application**: ✅ **FUNCTIONAL** - Consuming aggregated data (ready for status display updates)
 - **TypeScript System**: ✅ **COMPREHENSIVE** - Complete type safety across all event schemas
-- **Query Service**: ✅ Aggregating data from CommentCreated events (needs CommentModerated handling)
-- **Moderation Service**: ✅ **COMPLETE** - Full comment moderation with CommentModerated event emission
-- **Event Bus**: ✅ **ENHANCED** - Routing events to all services including moderation
-- **Client Application**: ✅ Consuming aggregated data (needs status display updates)
-- **TypeScript Types**: ✅ Comprehensive typing across all services
 
 ## Active Patterns and Preferences
 - **Event-Driven Communication**: Services communicate via events rather than direct HTTP calls
