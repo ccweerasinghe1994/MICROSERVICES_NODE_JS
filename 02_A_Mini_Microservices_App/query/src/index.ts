@@ -1,3 +1,4 @@
+import axios from 'axios';
 import cors from 'cors';
 import express from 'express';
 import {
@@ -18,6 +19,29 @@ app.post('/events', (req, res) => {
     | TPostCreated
     | TCommentCreated
     | CommentUpdatedEvent;
+
+  handleEvent(event);
+
+  res.send({ status: 'OK' });
+});
+
+app.get('/posts', (req, res) => {
+  res.send(posts);
+});
+
+app.listen(4002, async () => {
+  console.log('Event bus is running on port 4002');
+  const events = await axios.get('http://localhost:4005/events');
+
+  for (const event of events.data) {
+    console.log('🚀 ~ app.listen ~ event:', event);
+    handleEvent(event);
+  }
+});
+
+function handleEvent(
+  event: TPostCreated | TCommentCreated | CommentUpdatedEvent
+) {
   if (event.type === EVENT_TYPE.POST_CREATED) {
     const {
       data: { id, title },
@@ -44,14 +68,4 @@ app.post('/events', (req, res) => {
       commentToUpdate.content = content;
     }
   }
-
-  res.send({ status: 'OK' });
-});
-
-app.get('/posts', (req, res) => {
-  res.send(posts);
-});
-
-app.listen(4002, () => {
-  console.log('Event bus is running on port 4002');
-});
+}
