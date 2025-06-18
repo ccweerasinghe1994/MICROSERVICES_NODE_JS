@@ -16,38 +16,31 @@
 - In-memory data storage with proper typing
 - Prettier code formatting configuration
 
-✅ **Comments Service Implementation**  
-- Express.js TypeScript server running on port 4001 with CORS enabled
+✅ **Comments Service Enhanced Implementation**
+- **ADVANCED** Express.js TypeScript server with bi-directional event handling
 - GET /posts/:id/comments and POST /posts/:id/comments endpoints
-- Event emission to event bus with CommentCreated events
-- Comment status tracking (pending status on creation)
-- Enhanced TypeScript interfaces with status field
-- Proper event payload structure with postId, content, and status
+- CommentCreated event emission to event bus
+- **NEW**: CommentModerated event handling with local status updates
+- **NEW**: CommentUpdated event emission for status synchronization
+- Comprehensive TypeScript interfaces with proper event lifecycle management
+- Complete event-driven comment lifecycle: Create → Moderate → Update → Sync
 
-✅ **Query Service Implementation**
-- New Express.js TypeScript server running on port 4002
-- Event handling for PostCreated and CommentCreated events
-- Data aggregation creating posts with embedded comments
-- GET /posts endpoint serving aggregated data to frontend
-- Strong TypeScript typing with proper event and data interfaces
-- CORS enabled for frontend consumption
+✅ **Query Service Advanced Implementation**
+- Enhanced Express.js TypeScript server with event sourcing capabilities
+- Event handling for PostCreated, CommentCreated, **and CommentUpdated** events
+- **NEW**: Event replay functionality - fetches all events on startup for state reconstruction
+- Data aggregation with real-time comment status updates
+- GET /posts endpoint serving synchronized aggregated data to frontend
+- **NEW**: Complete state reconstruction from event history
+- Advanced TypeScript typing with comprehensive event interfaces
 
-✅ **Moderation Service Implementation** 
-- **COMPLETE** Express.js TypeScript server running on port 4003
-- Full comment moderation logic with keyword filtering ("orange" rejection rule)
-- CommentModerated event emission back to event bus with approved/rejected status
-- Comprehensive TypeScript types for event handling (types.ts)
-- Event-driven workflow: receives CommentCreated → processes → emits CommentModerated
-- Axios integration for event publishing to event bus
-
-✅ **Event Bus Service Enhanced**
-- Proper event routing to ALL services including moderation (port 4003)
-- Improved code formatting and structure
-- Event distribution to ports 4000, 4001, 4002, and 4003
-- Reliable event propagation across the entire microservices ecosystem
-
-✅ **Complete Event-Driven Architecture**
-- **FULL PIPELINE WORKING**: Comments → Event Bus → Moderation → Event Bus → Query
+✅ **Event Bus Enterprise Implementation**
+- **ENTERPRISE-LEVEL** event coordination with event storage
+- **NEW**: Event store - maintains history of all events
+- **NEW**: GET /events endpoint for event replay capability
+- **NEW**: Error handling with graceful degradation for failed service calls
+- Event distribution to all services with resilience
+- **NEW**: Event sourcing foundation for complete system state management
 - Comments service emitting CommentCreated events
 - Moderation service processing and emitting CommentModerated events
 - Query service consuming events for data aggregation
