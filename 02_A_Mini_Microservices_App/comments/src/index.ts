@@ -3,7 +3,9 @@ import cors from 'cors';
 import { randomBytes } from 'crypto';
 import express, { Request, Response } from 'express';
 import {
+  CommentCreatedEvent,
   CommentData,
+  CommentUpdatedEvent,
   CreateCommentParams,
   CreateCommentRequest,
   GetCommentsParams,
@@ -36,7 +38,7 @@ const createCommentHandler = async (
   if (!commentsByPostId[postId]) {
     commentsByPostId[postId] = [];
   }
-  const commentToBeCreated = {
+  const commentToBeCreated: CommentData = {
     id: commentId,
     content: comment.content,
     status: 'pending',
@@ -57,9 +59,31 @@ const createCommentHandler = async (
 
 app.post('/posts/:id/comments', createCommentHandler);
 
-app.post('/events', (req, res) => {
-  const event = req.body;
+app.post('/events', async (req, res) => {
+  const event = req.body as CommentCreatedEvent;
   console.log('Received event:', event.type);
+  if (event.type === 'CommentCreated') {
+    const {
+      data: { id, postId, status, content },
+    } = event;
+    const commentToUpdate = commentsByPostId[postId].find(
+      (comment) => comment.id === id
+    );
+    if (commentToUpdate) {
+      commentToUpdate.status = status;
+
+      const commentUpdatedEvent: CommentUpdatedEvent = {
+        type: 'CommentCreated',
+        data: {
+          content,
+          id,
+          postId,
+          status,
+        },
+      };
+      await axios.post('http://localhost:4005/events', commentUpdatedEvent);
+    }
+  }
   res.send({});
 });
 

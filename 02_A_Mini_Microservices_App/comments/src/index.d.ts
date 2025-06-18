@@ -1,16 +1,45 @@
-export interface CommentData {
-    id: string;
-    content: string;
+type TCommentStatus = 'approved' | 'rejected' | 'pending';
+interface CommentData {
+  id: string;
+  content: string;
+  status: TCommentStatus;
 }
 
-export interface CreateCommentRequest {
-    content: string;
+interface CreateCommentRequest {
+  content: string;
 }
 
-export interface GetCommentsParams {
-    id: string;
+interface GetCommentsParams {
+  id: string;
 }
 
-export interface CreateCommentParams {
-    id: string;
+interface CreateCommentParams {
+  id: string;
 }
+type CommentCreatedData = {
+  id: string;
+  postId: string;
+  content: string;
+  status: TCommentStatus;
+};
+
+type CommentCreatedEvent = {
+  type: 'CommentCreated';
+  data: CommentCreatedData;
+};
+
+
+type CommentUpdatedEvent = {
+  type: 'CommentCreated';
+  data: CommentCreatedData;
+};
+
+export {
+  CommentCreatedData,
+  CommentCreatedEvent,
+  CommentData,
+  CreateCommentParams,
+  CreateCommentRequest,
+  GetCommentsParams,
+  CommentUpdatedEvent,
+};
