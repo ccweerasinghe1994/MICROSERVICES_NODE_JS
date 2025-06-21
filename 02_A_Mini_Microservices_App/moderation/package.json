@@ -4,7 +4,16 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec tsx src/index.ts"
+    "dev": "nodemon --watch src --exec tsx src/index.ts",
+    "docker:build": "docker build -t moderation-service .",
+    "docker:build:prod": "docker build -f Dockerfile.production -t moderation-service:production .",
+    "docker:run": "docker run -p 4003:4003 --name moderation-service moderation-service",
+    "docker:run:prod": "docker run -p 4003:4003 --name moderation-service-prod moderation-service:production",
+    "docker:run:dev": "docker run -p 4003:4003 --rm --mount type=bind,source=./src,target=/app/src --name moderation-service-dev moderation-service",
+    "docker:stop": "docker stop moderation-service",
+    "docker:remove": "docker rm moderation-service",
+    "docker:clean": "docker stop moderation-service 2>/dev/null || true && docker rm moderation-service 2>/dev/null || true",
+    "docker:logs": "docker logs moderation-service"
   },
   "keywords": [],
   "author": "",

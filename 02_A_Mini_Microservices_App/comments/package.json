@@ -4,7 +4,16 @@
   "description": "microservice for handling comments",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec tsx src/index.ts"
+    "dev": "nodemon --watch src --exec tsx src/index.ts",
+    "docker:build": "docker build -t comments-service .",
+    "docker:build:prod": "docker build -f Dockerfile.production -t comments-service:production .",
+    "docker:run": "docker run -p 4001:4001 --name comments-service comments-service",
+    "docker:run:prod": "docker run -p 4001:4001 --name comments-service-prod comments-service:production",
+    "docker:run:dev": "docker run -p 4001:4001 --rm --mount type=bind,source=./src,target=/app/src --name comments-service-dev comments-service",
+    "docker:stop": "docker stop comments-service",
+    "docker:remove": "docker rm comments-service",
+    "docker:clean": "docker stop comments-service 2>/dev/null || true && docker rm comments-service 2>/dev/null || true",
+    "docker:logs": "docker logs comments-service"
   },
   "keywords": [],
   "author": "",

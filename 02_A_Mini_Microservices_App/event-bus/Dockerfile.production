@@ -1,0 +1,56 @@
+# Multi-stage build for production optimization
+FROM node:24-alpine AS base
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Install dependencies for building
+FROM base AS dependencies
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile && pnpm store prune
+
+# Build stage
+FROM base AS build
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm run build
+
+# Production stage
+FROM node:24-alpine AS production
+
+# Install dumb-init and pnpm for proper signal handling
+RUN apk add --no-cache dumb-init && \
+    npm install -g pnpm
+
+# Create app directory
+WORKDIR /app
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S posts -u 1001
+
+# Copy production dependencies
+COPY --from=dependencies --chown=posts:nodejs /app/node_modules ./node_modules
+
+# Copy built application
+COPY --from=build --chown=posts:nodejs /app/dist ./dist
+COPY --chown=posts:nodejs package.json pnpm-lock.yaml ./
+
+# Switch to non-root user
+USER posts
+
+# Expose port
+EXPOSE 4000
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:4000/posts || exit 1
+
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Start the application
+CMD ["node", "dist/index.js"]

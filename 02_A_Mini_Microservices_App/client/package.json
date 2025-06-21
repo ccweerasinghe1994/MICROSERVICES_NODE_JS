@@ -7,7 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:build": "docker build -t client-service .",
+    "docker:build:prod": "docker build -f Dockerfile.production -t client-service:production .",
+    "docker:run": "docker run -p 4000:4000 --name client-service client-service",
+    "docker:run:prod": "docker run -p 4000:4000 --name client-service-prod client-service:production",
+    "docker:run:dev": "docker run -p 4000:4000 --rm --mount type=bind,source=./src,target=/app/src --name client-service-dev client-service",
+    "docker:stop": "docker stop client-service",
+    "docker:remove": "docker rm client-service",
+    "docker:clean": "docker stop client-service 2>/dev/null || true && docker rm client-service 2>/dev/null || true",
+    "docker:logs": "docker logs client-service"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",

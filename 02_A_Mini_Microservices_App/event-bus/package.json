@@ -4,7 +4,16 @@
   "description": "microservice for handling comments",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec tsx src/index.ts"
+    "dev": "nodemon --watch src --exec tsx src/index.ts",
+    "docker:build": "docker build -t event-bus-service .",
+    "docker:build:prod": "docker build -f Dockerfile.production -t event-bus-service:production .",
+    "docker:run": "docker run -p 4005:4005 --name event-bus-service event-bus-service",
+    "docker:run:prod": "docker run -p 4005:4005 --name event-bus-service-prod event-bus-service:production",
+    "docker:run:dev": "docker run -p 4005:4005 --rm --mount type=bind,source=./src,target=/app/src --name event-bus-service-dev event-bus-service",
+    "docker:stop": "docker stop event-bus-service",
+    "docker:remove": "docker rm event-bus-service",
+    "docker:clean": "docker stop event-bus-service 2>/dev/null || true && docker rm event-bus-service 2>/dev/null || true",
+    "docker:logs": "docker logs event-bus-service"
   },
   "keywords": [],
   "author": "",

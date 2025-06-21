@@ -1,0 +1,13 @@
+[ERROR] Unknown command: ps
+Usage: docker.bat [COMMAND]
+
+Commands:
+  build      Build the Docker image
+  run        Run the container
+  stop       Stop the container
+  restart    Restart the container
+  logs       Show container logs
+  shell      Open shell in running container
+  clean      Stop and remove container
+  status     Show container status
+  help       Show this help message

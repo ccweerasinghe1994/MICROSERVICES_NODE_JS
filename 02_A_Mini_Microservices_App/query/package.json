@@ -4,7 +4,16 @@
   "description": "microservice for handling comments",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec tsx src/index.ts"
+    "dev": "nodemon --watch src --exec tsx src/index.ts",
+    "docker:build": "docker build -t query-service .",
+    "docker:build:prod": "docker build -f Dockerfile.production -t query-service:production .",
+    "docker:run": "docker run -p 4000:4000 --name query-service query-service",
+    "docker:run:prod": "docker run -p 4000:4000 --name query-service-prod query-service:production",
+    "docker:run:dev": "docker run -p 4002:4002 --rm --mount type=bind,source=./src,target=/app/src --name query-service-dev query-service",
+    "docker:stop": "docker stop query-service",
+    "docker:remove": "docker rm query-service",
+    "docker:clean": "docker stop query-service 2>/dev/null || true && docker rm query-service 2>/dev/null || true",
+    "docker:logs": "docker logs query-service"
   },
   "keywords": [],
   "author": "",
