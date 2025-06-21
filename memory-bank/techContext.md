@@ -17,7 +17,8 @@
 
 ### Development Tools
 - **PowerShell**: Default shell on Windows
-- **npm**: Package manager
+- **pnpm**: Primary package manager for better performance and dependency management
+- **Docker Desktop**: Container development and deployment platform
 - **ESLint**: Linting for TypeScript/JavaScript
 - **TypeScript ESLint**: TypeScript-specific linting rules
 
@@ -29,9 +30,13 @@
     /src/              # Source code
     /public/           # Static assets
     package.json       # Frontend dependencies
-  /posts/              # Posts microservice
+  /posts/              # Posts microservice (CONTAINERIZED)
+    /src/              # TypeScript source code
     package.json       # Service dependencies
-    index.js           # Service entry point
+    Dockerfile         # Development container
+    Dockerfile.production # Production container
+    docker-compose.yml # Service orchestration
+    .dockerignore      # Container build optimization
   /comments/           # Comments microservice
     package.json       # Service dependencies
     index.js           # Service entry point
@@ -42,13 +47,16 @@
 ## Development Environment
 - **OS**: Windows
 - **Shell**: PowerShell (pwsh.exe)
-- **Node.js Version**: 16+ required
-- **Package Manager**: npm (standard with Node.js)
+- **Node.js Version**: 24+ (for latest features and performance)
+- **Package Manager**: pnpm (preferred for efficiency and better dependency management)
+- **Container Platform**: Docker Desktop for Windows
 
 ## Port Allocation
 - **Client**: 3000 (Vite dev server)
-- **Posts Service**: 4000
+- **Posts Service**: 4000 (containerized)
 - **Comments Service**: 4001
+- **Query Service**: 4002
+- **Moderation Service**: 4003
 - **Event Bus**: 4005
 
 ## Build and Development Configuration
@@ -62,8 +70,10 @@
 ### Services (Node.js + Express)
 - CommonJS module system
 - Express middleware for CORS and JSON parsing
-- Development with nodemon for auto-restart
+- Development with nodemon/tsx for auto-restart
 - Simple in-memory data storage
+- **Docker containerization** with multi-stage builds
+- **pnpm dependency management** for optimized installs
 
 ## Dependencies Overview
 
@@ -73,13 +83,18 @@
 
 ### Service Dependencies
 - **Production**: express, cors, axios
-- **Development**: nodemon (for development)
+- **Development**: nodemon, tsx (for TypeScript execution)
+- **Container**: Docker, pnpm (global package manager)
 
 ## Configuration Files
-- **tsconfig.json**: TypeScript configuration for client
+- **tsconfig.json**: TypeScript configuration for client and services
 - **eslint.config.js**: ESLint rules for client
 - **vite.config.ts**: Vite build configuration
 - **package.json**: Dependencies and scripts for each service
+- **Dockerfile**: Container configuration for development
+- **Dockerfile.production**: Optimized container for production
+- **docker-compose.yml**: Multi-service orchestration
+- **.dockerignore**: Container build optimization
 
 ## API Standards
 - REST API endpoints

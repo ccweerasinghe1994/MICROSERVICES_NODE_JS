@@ -57,28 +57,30 @@ npm install
 
 3. Install service dependencies:
 ```bash
-# Posts service 
+# Posts service (🐳 CONTAINERIZED)
 cd ../posts
-npm install
+pnpm install
 
 # Comments service (✅ Event-enabled)
 cd ../comments  
-npm install
+pnpm install
 
 # Query service (✅ Functional)
 cd ../query
-npm install
+pnpm install
 
-# Moderation service (🔄 Scaffolded)
+# Moderation service (✅ COMPLETE)
 cd ../moderation
-npm install
+pnpm install
 
 # Event Bus service (✅ Functional)
 cd ../event-bus
-npm install
+pnpm install
 ```
 
 ### Running the Application
+
+#### Option 1: Traditional Development
 Start each service in separate terminals:
 
 ```bash
@@ -86,25 +88,35 @@ Start each service in separate terminals:
 cd 02_A_Mini_Microservices_App/client
 npm run dev
 
-# Terminal 2 - Posts Service 
+# Terminal 2 - Posts Service (🐳 or locally)
 cd 02_A_Mini_Microservices_App/posts
-npm run dev
+pnpm run dev  # or pnpm run docker:run:dev for container
 
 # Terminal 3 - Comments Service (✅ Event-enabled)
 cd 02_A_Mini_Microservices_App/comments
-npm run dev
+pnpm run dev
 
 # Terminal 4 - Query Service (✅ CQRS aggregation)
 cd 02_A_Mini_Microservices_App/query
-npm run dev
+pnpm run dev
 
 # Terminal 5 - Moderation Service (✅ COMPLETE with content filtering)
 cd 02_A_Mini_Microservices_App/moderation
-npm run dev
+pnpm run dev
 
 # Terminal 6 - Event Bus Service (✅ ENTERPRISE-LEVEL with event storage)
 cd 02_A_Mini_Microservices_App/event-bus
-npm start
+pnpm start
+```
+
+#### Option 2: Container Development (Posts Service)
+```bash
+# Build and run Posts service in container
+cd 02_A_Mini_Microservices_App/posts
+pnpm run docker:build
+pnpm run docker:run:dev  # With volume mount for hot reload
+
+# Run other services locally as above
 ```
 
 ## 📁 Project Structure
@@ -118,10 +130,15 @@ MICROSERVICES_NODE_JS/
 │   │   ├── src/api/             # API layer with QUERY service integration
 │   │   ├── package.json         # Dependencies including Tailwind CSS
 │   │   └── vite.config.ts       # Vite configuration
-│   ├── posts/                   # Posts microservice (✅ COMPLETE with events)
+│   ├── posts/                   # Posts microservice (🐳 CONTAINERIZED)
 │   │   ├── src/index.ts         # TypeScript Express server with PostCreated emission
-│   │   ├── dist/                # Compiled JavaScript
-│   │   ├── package.json         # Dependencies and scripts
+│   │   ├── Dockerfile           # Development container configuration
+│   │   ├── Dockerfile.production # Production optimized container
+│   │   ├── docker-compose.yml   # Service orchestration
+│   │   ├── .dockerignore        # Container build optimization
+│   │   ├── DOCKER.md            # Container documentation
+│   │   ├── docker.sh/.bat       # Container management scripts
+│   │   ├── package.json         # Dependencies and Docker scripts
 │   │   └── posts.postman_collection.json  # API testing
 │   ├── comments/                # Comments microservice (✅ COMPLETE with bi-directional events)
 │   │   ├── src/index.ts         # TypeScript Express server with CommentUpdated events
@@ -163,7 +180,8 @@ MICROSERVICES_NODE_JS/
 
 ### Development
 - Windows PowerShell environment
-- npm/pnpm package management
+- **pnpm** primary package management for better performance
+- **Docker Desktop** for container development and deployment
 - Hot reload development with tsx/nodemon
 - Prettier code formatting consistency
 - Memory bank documentation system
@@ -176,6 +194,7 @@ This project demonstrates:
 - **Inter-Service Communication**: Full event publishing and consumption with comprehensive moderation pipeline
 - **Automated Content Moderation**: Keyword-based filtering with real-time event-driven status updates
 - **Event Sourcing**: Complete event storage and replay capability for state reconstruction
+- **Container Deployment**: Docker containerization with pnpm optimization and multi-stage builds
 - **API Design**: RESTful service interfaces enhanced with comprehensive event-driven architecture
 - **Frontend Integration**: React consuming aggregated data with real-time synchronization
 - **Modern Development**: TypeScript, event sourcing, microservices patterns, and enterprise best practices
@@ -184,14 +203,15 @@ This project demonstrates:
 
 - ✅ **Project Structure**: Complete with comprehensive memory bank documentation
 - ✅ **React Client**: Event-driven data consumption with aggregated posts and embedded comments
-- ✅ **Posts Service**: **COMPLETE** - TypeScript Express.js server with PostCreated event emission
+- ✅ **Posts Service**: **🐳 CONTAINERIZED** - TypeScript Express.js server with Docker + pnpm optimization
 - ✅ **Comments Service**: **COMPLETE** - Full event lifecycle with status updates and CommentUpdated events
 - ✅ **Query Service**: **COMPLETE** - CQRS implementation with event sourcing and replay capability
 - ✅ **Event Bus**: **ENTERPRISE-LEVEL** - Event storage, replay endpoint, and comprehensive error handling
 - ✅ **Moderation Service**: **COMPLETE** - Full comment filtering with CommentModerated event emission
 - ✅ **🎉 Event-Driven Architecture**: **COMPLETE** - All services fully integrated with comprehensive event flow
+- 🔄 **🐳 Containerization**: **PARTIAL** - Posts service containerized, other services pending
 
-### 🎯 **MAJOR MILESTONE ACHIEVED**: Complete enterprise-level event-driven microservices architecture with automated workflows!
+### 🎯 **MAJOR MILESTONE ACHIEVED**: Complete enterprise-level event-driven microservices architecture with Docker containerization foundation!
 
 ## 📄 License
 
